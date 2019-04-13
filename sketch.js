@@ -20,20 +20,18 @@ setTimeout(typeWriter, 500);
 
 // This is the main brain of the page.
 let gradientObj = {
-  threshold: 190,
-  decreaser: 0.75,
+  threshold: 150,
   brightArr: [],
   thresholdCalc(bright){
     if (!Number.isNaN(bright)) {
       this.brightArr.push(bright);
     }
-    if (this.brightArr.length > 10) {
+    if (this.brightArr.length > 5000) {
       const num = this.brightArr.length;
-      const result = Math.log2((this.brightArr.reduce((a,b)=>a+b)/num))*30;
+      const result = (this.brightArr.reduce((a,b)=>a+b)/num)*1;
       this.threshold = result > 255 ? 255:result; 
       this.brightArr = [];
     }
-    
   }
 }
 
@@ -71,19 +69,23 @@ function draw(){
       //Averaging the red, green and blue values gives you a greyscale image.
       bright = (r+g+b)/3;
 
+      index%10==0 ? gradientObj.thresholdCalc(bright) : false;
+
+
+      asciiBright = Math.pow(bright, 2)/255
       //If the brightness of the pixel falls in a certain range, place a specifc ASCII character
       let asciiChar;
-      if (bright >= gradientObj.threshold) {
+      if (asciiBright >= gradientObj.threshold) {
         asciiChar = char(35);
-      } else if (bright > gradientObj.threshold*gradientObj.decreaser) {
+      } else if (asciiBright > (gradientObj.threshold/7) * 6)  {
         asciiChar = char(38);        
-      } else if (bright > gradientObj.threshold*Math.pow(gradientObj.decreaser, 2)) {
-        asciiChar = char(92);                
-      } else if (bright > gradientObj.threshold*Math.pow(gradientObj.decreaser, 3)) {
+      } else if (asciiBright > (gradientObj.threshold/7) * 5) {
         asciiChar = char(62);                
-      } else if (bright > gradientObj.threshold*Math.pow(gradientObj.decreaser, 3.5)) {
-        asciiChar = char(44);                
-      } else if (bright > gradientObj.threshold*Math.pow(gradientObj.decreaser, 4)) {
+      } else if (asciiBright > (gradientObj.threshold/7) * 4) {
+        asciiChar = char(43);                
+      } else if (asciiBright > (gradientObj.threshold/7) * 3) {
+        asciiChar = char(47);                
+      } else if (asciiBright > (gradientObj.threshold/7) * 1) {
         asciiChar = char(46);                
       } else {
         asciiChar = char(32)
@@ -92,11 +94,6 @@ function draw(){
       text(asciiChar, x*vScale, y*vScale);
     }
   }
-
-  // Don't worry about this...
-  // frameCount%1==0 ? gradientObj.thresholdCalc(bright) : false;
-  // gradientObj.thresholdCalc(bright);
-
 }
 
 //Save-image feature.
