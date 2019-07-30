@@ -42,9 +42,7 @@ function setup() {
   canvas.parent('canvas-container');
   pixelDensity(1);
   video = createCapture(VIDEO);
-  // video  = createVideo('stock-video.mp4');
   video.size(width/vScale, height/vScale);
-  // video.loop();
   video.hide();
   fill(225);
   textAlign(RIGHT);
