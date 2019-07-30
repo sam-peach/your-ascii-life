@@ -8,7 +8,7 @@ The idea behind Your ASCII Life was to explore some new ways to manipulate live 
 
 # Screenshots
 
-![alt text](https://imgur.com/WPVkjP4.jpg)
+![alt text](https://imgur.com/hzmTPzF.jpg)
 
 # Tech Stack
 
